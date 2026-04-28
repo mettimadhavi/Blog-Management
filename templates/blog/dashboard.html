@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - AuraBlog{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h2>Your Blog Posts</h2>
+    <a href="{% url 'create_post' %}" class="btn btn-primary">+ Create New Post</a>
+</div>
+
+{% if posts %}
+    <div class="post-grid">
+        {% for post in posts %}
+            <div class="post-card">
+                {% if post.unsplash_image_url %}
+                    <img src="{{ post.unsplash_image_url }}" alt="Cover image" class="post-image">
+                {% else %}
+                    <div class="post-image" style="display: flex; align-items: center; justify-content: center; color: var(--text-secondary);">No Image</div>
+                {% endif %}
+                <div class="post-content">
+                    <h3 class="post-title">{{ post.title }}</h3>
+                    <p class="post-excerpt">{{ post.content|truncatewords:20 }}</p>
+                    <div class="post-meta">
+                        <span>{{ post.created_at|date:"M d, Y" }}</span>
+                        {% if post.is_ai_generated %}
+                            <span class="badge">AI Generated</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <a href="{% url 'post_detail' post.pk %}" style="position: absolute; top:0; left:0; width:100%; height:100%; z-index:1;"></a>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-state">
+        <h3>No posts yet</h3>
+        <p>Start your creative journey by generating your first AI-powered blog post.</p>
+        <a href="{% url 'create_post' %}" class="btn btn-primary">Create Your First Post</a>
+    </div>
+{% endif %}
+{% endblock %}

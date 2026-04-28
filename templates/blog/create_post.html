@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Post - AuraBlog{% endblock %}
+
+{% block content %}
+<div class="auth-container" style="max-width: 600px;">
+    <h2>Generate New Post</h2>
+    <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">
+        Enter a topic or prompt, and our AI will generate a complete blog post with a relevant cover image.
+    </p>
+    
+    <form method="post" id="generate-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="prompt">Topic or Prompt</label>
+            <textarea id="prompt" name="prompt" rows="4" placeholder="e.g. The future of artificial intelligence in healthcare..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;" id="generate-btn">
+            Generate Magic ✨
+        </button>
+    </form>
+    
+    <div id="loading" style="display: none; text-align: center; margin-top: 2rem;">
+        <p style="color: var(--accent); font-weight: 600;">Generating your content... This might take a few seconds.</p>
+        <!-- Simple pure CSS loader -->
+        <div style="margin: 1rem auto; width: 40px; height: 40px; border: 4px solid rgba(59, 130, 246, 0.3); border-radius: 50%; border-top-color: var(--accent); animation: spin 1s ease-in-out infinite;"></div>
+        <style>
+            @keyframes spin { to { transform: rotate(360deg); } }
+        </style>
+    </div>
+</div>
+
+<script>
+    document.getElementById('generate-form').addEventListener('submit', function() {
+        document.getElementById('generate-btn').style.display = 'none';
+        document.getElementById('loading').style.display = 'block';
+    });
+</script>
+{% endblock %}

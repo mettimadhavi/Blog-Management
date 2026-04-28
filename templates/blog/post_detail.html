@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }} - AuraBlog{% endblock %}
+
+{% block content %}
+<div class="dashboard-header" style="margin-bottom: 1rem;">
+    <a href="{% url 'dashboard' %}" class="btn btn-outline">&larr; Back to Dashboard</a>
+</div>
+
+<article class="post-detail">
+    {% if post.unsplash_image_url %}
+        <img src="{{ post.unsplash_image_url }}" alt="Cover image" class="detail-image">
+    {% endif %}
+    
+    <div class="detail-body">
+        <h1 class="detail-title">{{ post.title }}</h1>
+        <div class="detail-meta">
+            <span>By {{ post.author.username }}</span>
+            <span>&bull;</span>
+            <span>{{ post.created_at|date:"F d, Y" }}</span>
+            {% if post.is_ai_generated %}
+                <span class="badge">AI Generated</span>
+            {% endif %}
+        </div>
+        
+        <div class="detail-text">
+            {{ post.content }}
+        </div>
+    </div>
+</article>
+{% endblock %}
